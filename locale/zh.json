@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Agent 循环",
+    "description": "在对话、轨迹旁边增加「循环」视图：按任务列出跑了多少次 Agent 循环，每一轮里的模型调用、工具调用，以及驱动它的提示词。",
+    "detail": "docs/DETAIL.md"
+  }
+}

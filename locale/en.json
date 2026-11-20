@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Agent loops",
+    "description": "Adds a Loops view beside Chat and Trajectory: every task with its agent-loop count, and every loop with its model calls, tool calls, and the prompts that drove it.",
+    "detail": "docs/DETAIL.md"
+  }
+}
