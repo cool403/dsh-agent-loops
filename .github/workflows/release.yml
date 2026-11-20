@@ -38,8 +38,13 @@ jobs:
 
       - name: Publish
         env:
-          # Needed only for the very first release, before this repository is
-          # registered as a Trusted Publisher on npmjs.com. Once that is set up,
-          # remove the NPM_TOKEN secret: npm authenticates with OIDC instead.
+          # Needed until this repository is registered as a Trusted Publisher on
+          # npmjs.com. After that, delete the secret: with no token configured,
+          # npm authenticates through OIDC and still attaches provenance.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public
+        run: |
+          # npm reads the token from .npmrc, not from the bare environment.
+          if [ -n "${NODE_AUTH_TOKEN:-}" ]; then
+            printf '//registry.npmjs.org/:_authToken=%s\n' "$NODE_AUTH_TOKEN" > "$HOME/.npmrc"
+          fi
+          npm publish --provenance --access public
