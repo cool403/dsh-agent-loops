@@ -1,6 +1,6 @@
 {
   "name": "dsh-agent-loops",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DeepSeek Harness plugin: every task's agent loops, with the model calls, tool calls, and prompts inside each one.",
   "license": "MIT",
   "repository": {

@@ -47,4 +47,28 @@ jobs:
           if [ -n "${NODE_AUTH_TOKEN:-}" ]; then
             printf '//registry.npmjs.org/:_authToken=%s\n' "$NODE_AUTH_TOKEN" > "$HOME/.npmrc"
           fi
-          npm publish --provenance --access public
+
+          # The publish output goes to the run summary so a silent outcome is
+          # still readable after the fact.
+          set +e
+          npm publish --provenance --access public > "$RUNNER_TEMP/publish.log" 2>&1
+          status=$?
+          set -e
+
+          {
+            echo '### Release diagnostics'
+            echo ''
+            echo '- package: `'"$(node -e 'const p=require("./package.json"); console.log(p.name+"@"+p.version)')"'`'
+            echo '- node: `'"$(node --version)"'`'
+            echo '- npm: `'"$(npm --version)"'`'
+            echo '- registry: `'"$(npm config get registry)"'`'
+            echo '- NPM_TOKEN present: `'"$([ -n "${NODE_AUTH_TOKEN:-}" ] && echo yes || echo no)"'`'
+            echo ''
+            echo '### npm publish output (exit code '"$status"')'
+            echo ''
+            echo '```'
+            cat "$RUNNER_TEMP/publish.log"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          exit "$status"
