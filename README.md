@@ -16,13 +16,17 @@ Every loop also shows the task prompt carried into it, because from the second l
 
 ## Install
 
-Add the bundle to a profile by its Git spec:
+In the app: **Settings → Plugins → add**, paste one of the specs below, and confirm. The install adds the bundle to the profile's bundle list and turns the plugin on; the view appears after a page refresh.
 
-```
-github:cool403/dsh-agent-loops
-```
+| Spec | Accepted | Notes |
+| --- | --- | --- |
+| `github:cool403/dsh-agent-loops` | ✅ | Shortest Git form — recommended until there is an npm release. |
+| `git+https://github.com/cool403/dsh-agent-loops.git` | ✅ | Explicit HTTPS Git URL. |
+| `git@github.com:cool403/dsh-agent-loops.git` | ❌ | That is the **SSH clone URL**, not a package spec. pnpm rejects it with `ERR_PNPM_UNSUPPORTED_PROTOCOL`, because it reads `github.com:` as a protocol. |
 
-In the app: **Settings → Plugins → add** and paste that spec. The install adds the bundle to the profile's bundle list and turns the plugin on; the view appears after a page refresh.
+The repository must be public for a credential-free clone; a private one would make every install depend on the user's Git credentials.
+
+> **Changing an installed plugin's source is remove-then-install.** If the new spec fails, the plugin stays removed — the dialog does not roll back. Install with a verified spec rather than editing a working installation.
 
 Requirements: DeepSeek Harness with the session-projection subsystem and the Web conversation view (`conversation.view`). Built and tested against DSH `0.2.2-rc.3`.
 
