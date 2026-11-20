@@ -48,6 +48,15 @@ No build step: plain ESM, one client bundle factory, one injected `<style>`. Col
 
 More detail: [`docs/DETAIL.md`](docs/DETAIL.md). In the app the same document is the plugin's detail page.
 
+## Releasing
+
+Releases are tag-driven and published from GitHub Actions (`.github/workflows/release.yml`):
+
+1. Bump the version (`npm version patch|minor|major --no-git-tag-version`) and commit.
+2. `git tag v<version> && git push --tags` — the workflow refuses a tag that disagrees with `package.json`, then runs `npm publish --provenance --access public`.
+
+The **first** publish needs credentials, because npm only lets you register a Trusted Publisher for a package that already exists: run `npm publish --access public` locally once, or add an `NPM_TOKEN` secret and start the workflow manually. After that, register this repository under the package's **Settings → Trusted Publisher → GitHub Actions** with the workflow file `release.yml`, and delete the secret — later releases authenticate through OIDC and ship a provenance attestation.
+
 ## Development
 
 The profile links (or checks out) this package, so edits take effect after a reinstall or refresh — there is nothing to compile. The four files that matter:
