@@ -1,6 +1,6 @@
 {
   "name": "dsh-agent-loops",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "DeepSeek Harness plugin: every task's agent loops, with the model calls, tool calls, and prompts inside each one.",
   "license": "MIT",
   "repository": {
@@ -30,6 +30,13 @@
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "check": "node --check index.js && node --check client.js",
+    "prepublishOnly": "npm run check"
+  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
